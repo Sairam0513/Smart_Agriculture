@@ -1,0 +1,15 @@
+[project]
+name = "smart-agriculture-env"
+version = "0.1.0"
+description = "Smart Agriculture OpenEnv environment"
+authors = [{name = "Sai Ram"}]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "requests"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

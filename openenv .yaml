@@ -1,15 +1,13 @@
 name: smart-agriculture-env
-description: Smart farming decision-making environment
+description: Smart agriculture simulation environment
+version: 1.0
+
+entrypoint: inference.py
 
 observation_space:
   type: dict
 
 action_space:
-  type: string
+  type: dict
 
 reward_range: [-1, 1]
-
-tasks:
-  - irrigation
-  - fertilizer
-  - crop_health

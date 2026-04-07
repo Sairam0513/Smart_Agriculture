@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from env import SmartAgriEnv
 
 app = FastAPI()
@@ -26,3 +27,11 @@ def state():
 @app.get("/")
 def home():
     return {"message": "Smart Agriculture OpenEnv is running"}
+
+# ✅ REQUIRED MAIN FUNCTION
+def main():
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860)
+
+# ✅ REQUIRED ENTRY POINT
+if __name__ == "__main__":
+    main()

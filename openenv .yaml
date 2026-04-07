@@ -1,0 +1,15 @@
+name: smart-agriculture-env
+description: Smart farming decision-making environment
+
+observation_space:
+  type: dict
+
+action_space:
+  type: string
+
+reward_range: [-1, 1]
+
+tasks:
+  - irrigation
+  - fertilizer
+  - crop_health

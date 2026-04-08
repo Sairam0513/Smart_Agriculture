@@ -1,24 +1,45 @@
-from fastapi import FastAPI
 from env import SmartAgriEnv
 
-app = FastAPI()
-env = SmartAgriEnv()
-
-@app.post("/reset")
-def reset():
+def main():
+    env = SmartAgriEnv()
     obs = env.reset()
-    return {"observation": obs}
 
-@app.post("/step")
-def step(action: dict):
-    obs, reward, done, info = env.step(action)
-    return {
-        "observation": obs,
-        "reward": reward,
-        "done": done,
-        "info": info
-    }
+    total_reward = 0
+    step_count = 0
 
-@app.get("/state")
-def state():
-    return {"state": env.state()}
+    print(f"[START] task=smart_agriculture", flush=True)
+
+    done = False
+
+    while not done:
+        data = obs["data"]
+
+        # Rule-based decision
+        if "soil_moisture" in data:
+            decision = "water" if data["soil_moisture"] < 30 else "none"
+
+        elif "N" in data:
+            nutrients = {"N": data["N"], "P": data["P"], "K": data["K"]}
+            lowest = min(nutrients, key=nutrients.get)
+            decision = "fertilize"
+
+        elif "spots" in data:
+            decision = "pesticide" if data["spots"] else "none"
+
+        else:
+            decision = "none"
+
+        action = {"decision": decision}
+
+        obs, reward, done, _ = env.step(action)
+
+        step_count += 1
+        total_reward += reward
+
+        print(f"[STEP] step={step_count} reward={reward}", flush=True)
+
+    print(f"[END] task=smart_agriculture score={total_reward} steps={step_count}", flush=True)
+
+
+if __name__ == "__main__":
+    main()
